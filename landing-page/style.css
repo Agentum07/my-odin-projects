@@ -1,0 +1,172 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  border-radius: 5%;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #152937;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  gap: 16px;
+
+}
+
+a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #f9faf8;
+}
+
+.header-logo {
+  padding: 24px 0px;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  background-color: #152937;
+  padding: 100px;
+  gap: 10px
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.hero-heading {
+  font-size: 48px;
+  font-weight: 900;
+  color: #f9faf8;
+}
+
+.header-logo,
+.hero-text {
+  font-size: 18px;
+  color: #e5e7eb;
+}
+
+.hero-button {
+  background-color: #3882f6;
+  width: 150px;
+  color: white;
+  border-radius: 5px;
+}
+
+/* INFO */
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-heading {
+  font-size: 36px;
+  font-weight: 900;
+  color: #1f2937
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  border: 1px solid #eee;
+  box-shadow: 2px 4px 16px rgba(0,0,0,.06);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 16px;
+  height: 150px;
+  width: 150px;
+}
+
+.card-text {
+  max-width: 150px;
+  margin: 16px;
+}
+
+/* QUOTE */
+.quote {
+  display: flex;
+  flex-direction: column;
+  background-color: #e5e7eb;
+  padding: 100px;
+}
+
+.quote-heading {
+  font-size: 36px;
+  color: #1f2937;
+  font-style: italic;
+}
+
+.quote-byline {
+  display: flex;
+  font-weight: 600;
+  flex-direction: row-reverse;
+}
+
+/* CALL TO ACTION */
+.call {
+  display: flex;
+  justify-content: space-around;
+  background-color: #3882f6;
+  margin: 100px;
+  padding: 50px;
+  color: #e5e7eb;
+  align-items: center;
+
+}
+
+.call-text {
+  margin: 12px 0px;
+  gap: 8px;
+}
+
+.call-heading {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.call-button {
+  background-color: #3882f6;
+  width: 150px;
+  height: 25px;
+  color: white;
+  border-radius: 5px;
+}
+
+/* FOOTER */
+.footer {
+  position: relative;
+  color: #f9faf8;
+  background-color: #152937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+}
