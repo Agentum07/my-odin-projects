@@ -8,14 +8,16 @@
 </head>
 <body>
   <h1>Sketchboard!</h1>
-  <input type="text" placeholder="Size of board" value="16">
+  <input type="text" placeholder="Size of board" value="16" onchange="changeGridSize(this.value)">
+  <p id="message"></p>
   <div class="board">
     <!-- grid -->
   </div>
   <div class="buttons">
-    <button id="grayscale-button">Grayscale</button>
-    <button id="color-button">Color</button>
-    <button id="reset-button">Reset</button>
+    <button id="black-button" onclick="setColor('black')">Black</button>
+    <button id="color-button" onclick="setColor('random')">Color</button>
+    <button id="reset-button" onclick="resetGrid()">Reset</button>
   </div>
 </body>
+<script src="./js/script.js"></script>
 </html>
