@@ -32,20 +32,19 @@ input[type='color'] {
 .control-panel {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
 }
 
-/* input + message*/
+/* input + message */
 .info {
   width: 300px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   color: white;
-  gap: 12px;
   flex-wrap: wrap;
   gap: 10px;
+  padding-bottom: 50px;
 }
 
 #message {
@@ -92,4 +91,10 @@ button {
   font-size: 14px;
   background-color: #588157;
   color: white;
+}
+
+/* footer */
+.footer {
+  font-weight: 700;
+  padding-bottom: 26px;
 }
