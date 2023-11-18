@@ -1,16 +1,50 @@
 body {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
-  background-color: lightgray;
+  background-color: #ededed;
+}
+
+input[type='color'] {
+	border: none;
+  width: 200px;
+  height: 25px;
+}
+
+/* grid + info + buttons */
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-evenly; */
+  max-width: 1150px;
+  gap: 120px
+}
+
+/* input + buttons */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+}
+
+/* input */
+.info {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 /* input dialog box */
 input {
-  background-color: rgb(222, 218, 218);
+  background-color: #4980f718;
   border: 1px solid black;
   color: black;
+  width: 200px;
+  font-size: 16px;
 }
 
 /* sketchboard */
@@ -22,16 +56,19 @@ input {
 }
 
 /* buttons */
-button {
-  width: 150px;
-  height: 25px;
-  border-radius: 5px;
+.buttons {
+  border: 1px solid yellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 240px;
+  align-items: center;
 }
 
-.buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 500px;
+button {
+  width: 200px;
+  height: 25px;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: lightblue;
 }

@@ -7,17 +7,28 @@
   <title>Etch a Sketch</title>
 </head>
 <body>
-  <h1>Sketchboard!</h1>
-  <input type="text" placeholder="Size of board" value="16" onchange="changeGridSize(this.value)">
-  <p id="message"></p>
-  <div class="board">
-    <!-- grid -->
+  <div class="header">
+    <h1>Etch a Sketch!</h1>
   </div>
-  <div class="buttons">
-    <button id="black-button" onclick="setColor('black')">Black</button>
-    <button id="color-button" onclick="setColor('random')">Color</button>
-    <button id="reset-button" onclick="resetGrid()">Reset</button>
+  <div class="body">
+    <div class="control-panel">
+      <div class="info">
+        <input type="text" placeholder="Size of board" value="16" onchange="changeGridSize(this.value)">
+        <p id="message">Click and Drag to Draw!</p>
+      </div>
+      <div class="buttons">
+        <input id="colorPicker" type="color" value="#333333" onclick="setColor(this.value)" onchange="setColor(this.value)"/>
+        <button class="button" id="black-button">Black</button>
+        <button class="button" id="random-button">Rainbow</button>
+        <button class="button" id="erase-button">Eraser</button>
+        <button onclick="toggleGrid()">Toggle Grid Lines</button>
+        <button onclick="clearGrid()">Clear</button>
+        <button onclick="resetGrid()">Reset</button>
+      </div>
+    </div>
+    <div class="board"></div>
   </div>
+  <div class="footer">Created by: <a href="https://github.com/Agentum07" target="_blank" rel="noopener noreferrer"> Abhishek Gupta</a></div>
 </body>
 <script src="./js/script.js"></script>
 </html>
