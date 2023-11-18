@@ -3,7 +3,15 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  background-color: #ededed;
+  margin: 0;
+  background: linear-gradient(#3a5a40, #dad7cd);
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 36px;
 }
 
 input[type='color'] {
@@ -16,35 +24,48 @@ input[type='color'] {
 .body {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-evenly; */
   max-width: 1150px;
-  gap: 120px
+  gap: 80px;
 }
 
 /* input + buttons */
 .control-panel {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  border: 1px solid black;
 }
 
-/* input */
+/* input + message*/
 .info {
-  width: 200px;
+  width: 300px;
   display: flex;
-  flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#message {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 /* input dialog box */
 input {
   background-color: #4980f718;
   border: 1px solid black;
-  color: black;
-  width: 200px;
+  color: white;
+  height: 30px;
+  width: 55px;
+  text-align: center;
   font-size: 16px;
+  border-radius: 50%;
 }
 
 /* sketchboard */
@@ -57,7 +78,6 @@ input {
 
 /* buttons */
 .buttons {
-  border: 1px solid yellow;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -70,5 +90,6 @@ button {
   height: 25px;
   border-radius: 5px;
   font-size: 14px;
-  background-color: lightblue;
+  background-color: #588157;
+  color: white;
 }

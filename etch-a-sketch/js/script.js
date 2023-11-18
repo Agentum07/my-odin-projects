@@ -93,20 +93,19 @@ const DEFAULT_SIZE = 16;
 const DEFAULT_BORDER = "1px solid black";
 
 function highlightButtonByDefault() {
+  resetButtons();
   highlightButton(black_btn);
 }
 
 function resetButtons() {
   console.log("Reset all buttons to default.");
   [...all_buttons].forEach(div => {
-    div.style.backgroundColor = "lightblue";
-    div.style.color = "black";
+    div.style.backgroundColor = "#588157";
   });
 }
 
 function highlightButton(button) {
-  button.style.backgroundColor = "darkblue";
-  button.style.color = "white";
+  button.style.backgroundColor = "#344e41";
 }
 
 function blackButtonClickEvent() {
@@ -147,6 +146,7 @@ function highlightDiv(event) {
 function colorDiv(event) {
   if (event.type === 'mouseover' && !mouseDown) {
     // highlight div
+    // color: #588157
     // highlightDiv(event);
     return;
   }
@@ -158,7 +158,7 @@ function colorDiv(event) {
 }
 
 function toggleGrid() {
-  console.log(`${isBorderEnabled}`)
+  console.log(`Grid lines being shown: ${isBorderEnabled}`)
   if (isBorderEnabled) {
     board.childNodes.forEach(div => {
       div.style.border = "none";
