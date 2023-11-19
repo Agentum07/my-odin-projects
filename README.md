@@ -9,3 +9,6 @@ Project to understand the fundamentals of CSS, beautifying HTML using CSS, creat
 
 3. Rock Paper Scissors. [Live Demo](https://agentum07.github.io/my-odin-projects/rock-paper-scissors/)
 Project to understand the basics of JavaScript, and how to create a semi-complex backend for a webpage.
+
+4. Etch-a-Sketch. [Live Demo](https://agentum07.github.io/my-odin-projects/etch-a-sketch/)
+Project to delve deeper into JS, HTML and CSS.
