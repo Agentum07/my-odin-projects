@@ -1,0 +1,118 @@
+body {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-evenly; */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+.header {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 120px;
+  padding: 10px 50px 10px 10px;
+  color: #fff;
+  background: url("./images/blacktocat.png") #0090ff no-repeat 95% 50%;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.intro {
+  margin: 0;
+  padding: 25px;
+  padding-left: 110px;
+  border: 0;
+  background: linear-gradient(#0077b6, #023e8a);
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
+  /* border: 10px solid black; */
+}
+
+.intro-heading,
+.intro-byline {
+  max-width: 750px;
+  margin-bottom: 0;
+}
+
+.content {
+  padding-left: 110px;
+}
+
+table {
+  border: 1px solid #373737;
+  margin-bottom: 20px;
+  text-align: left;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  text-indent: initial;
+  box-sizing: border-box;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tr {
+  display: table-row;;
+} 
+
+th {
+  font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 10px;
+  background: #373737;
+  color: #fff;
+}
+
+tbody {
+  display: table-row-group;
+}
+
+th, td {
+  display: table-cell;  
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #373737;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+.footer {
+  position: fixed;
+  background: linear-gradient(#023e8a, #0077b6);
+  width: 100%;
+  color: white;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font: inherit;
+  padding: 10px;
+  padding-left: 110px;
+  line-height: 0.1;
+}
+
+div p a {
+  color: #F2F2F2;
+  text-decoration: underline;
+}
