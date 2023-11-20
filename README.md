@@ -12,3 +12,6 @@ Project to understand the basics of JavaScript, and how to create a semi-complex
 
 4. Etch-a-Sketch. [Live Demo](https://agentum07.github.io/my-odin-projects/etch-a-sketch/)
 Project to delve deeper into JS, HTML and CSS.
+
+5. Calculator. [Live Demo](https://agentum07.github.io/my-odin-projects/calculator/)
+Project to finish up the foundations section of the odin project.
