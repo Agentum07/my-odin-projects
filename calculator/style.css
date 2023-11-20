@@ -98,6 +98,31 @@ button {
   color: white;
 }
 
+button:hover {
+  background-color: #bdbdbd;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover,
+.backspace-btn:hover {
+  background-color: red;
+  transition: all 0.2s;
+}
+
+button.operator:hover {
+  background-color: #fb5407;
+  transition: all 0.2s;
+}
+
+button.equal {
+  background-color: #e5383b;
+}
+
+button.equal:hover {
+  background-color: #f68688;
+  transition: all 0.2s;
+}
+
 footer a {
   text-decoration: none;
   color: white;
