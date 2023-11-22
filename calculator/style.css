@@ -38,7 +38,7 @@ footer {
 .display-row {
   width: 270px;
   height: 90px;
-  padding: 15px;
+  padding: 20px 15px;
   overflow: hidden;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
@@ -58,25 +58,19 @@ footer {
 }
 
 #history {
-  /* border: 1px solid black; */
-  width: 100%;
   align-self: start;
   overflow: hidden;
   white-space: nowrap;
-  text-align: end;
 }
 
 #input {
   /* border: 1px solid black; */
-  width: 100%;
   font-size: 30px;
   align-self: end;
   overflow: hidden;
-  text-align: end;
 }
 
 .buttons {
-  /* margin: 0; */
   background-color: #212121;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
