@@ -18,10 +18,13 @@ equal_btn.addEventListener("click", () => handleEqualButtonClick());
 function handleClearButtonClick() {
   updateCurrentScreen('reset');
   updateHistoryScreen('reset');
+  currentResult = '';
+  prevResult = '';
 }
 
 function handleBackspaceButtonClick() {
   updateCurrentScreen('backspace');
+  currentResult = Number(currentScreen.textContent);
 }
 
 function handleEqualButtonClick() {
@@ -30,10 +33,10 @@ function handleEqualButtonClick() {
     console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
     updateHistoryScreen('update', '');
     handleOperation(currentResult);
+    updateHistoryScreen('update', " = ");
+    updateCurrentScreen('overwrite', prevResult);
   }
   console.log(`handleEqualButtonClick: Final answer: ${prevResult}`);
-  updateHistoryScreen('update', " = ");
-  updateCurrentScreen('overwrite', prevResult);
   currentResult = prevResult;
   prevResult = '';
 }
@@ -49,7 +52,7 @@ function handleButtonClick(button) {
   if (button.classList.contains('number')) {
     handleNumberButtonClick(button);
   } else if (button.classList.contains('operator')) {
-    if (!prevResult) {
+    if (prevResult === '') {
       prevResult = currentResult;
       currentResult = '';
     }
@@ -99,8 +102,6 @@ function updateCurrentScreen(task, updateValue='') {
   if (task === 'reset') {
     // console.log("updateCurrentScreen: Reset current screen.")
     currentScreenVal = '0';
-    currentResult = '';
-    prevResult = '';
   } else if (task === 'clear') {
     // console.log("updateCurrentScreen: Clear current screen.")
     currentScreenVal = '';
