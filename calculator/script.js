@@ -1,3 +1,15 @@
+function handleClearButtonClick() {
+  updateCurrentScreen('reset');
+  updateHistoryScreen('reset');
+  clearCurrentResult();
+  clearPreviousResult();
+  clearOperator();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// CONTROLLERS ////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
 let currentScreenVal = ''
 let historyScreenVal = ''
 let operator = ''
@@ -15,17 +27,7 @@ clear_btn.addEventListener("click", () => handleClearButtonClick());
 backspace_btn.addEventListener("click", () => handleBackspaceButtonClick());
 equal_btn.addEventListener("click", () => handleEqualButtonClick());
 
-function handleClearButtonClick() {
-  updateCurrentScreen('reset');
-  updateHistoryScreen('reset');
-  clearCurrentResult();
-  clearPreviousResult();
-  clearOperator();
-}
-
-//////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// GETTER FUNCTIONS /////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
 
 function getPreviousResult() {
   return prevResult;
@@ -39,9 +41,7 @@ function getOperator() {
   return operator;
 }
 
-//////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// SETTER FUNCTIONS /////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
 
 function setPreviousResult(newResult) {
   prevResult = newResult;
@@ -59,9 +59,8 @@ function setOperator(newOperator) {
   operator = newOperator;
 }
 
-//////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// RESET FUNCTIONS //////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
+
 function clearPreviousResult() {
   prevResult = '';
 }
@@ -82,6 +81,10 @@ function handleBackspaceButtonClick() {
   updateCurrentScreen('backspace');
   updateCurrentResult();
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// FRONTEND ///////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 
 function handleEqualButtonClick() {
   // only modify the display if there is a calculation left to conduct.
@@ -114,29 +117,6 @@ function handleNumberButtonClick(number) {
   let numberPressed = number.textContent;
   updateCurrentScreen('append', numberPressed);
   updateCurrentResult();
-}
-
-function calculateNewResult(num1, num2, operationToPerform) {
-  switch (operationToPerform) {
-    case '+':
-      return handleAddition(num1, num2);
-    case '-':
-      return handleSubstraction(num1, num2);
-    case 'x':
-      return handleMultiplication(num1, num2);
-    case '/':
-      return handleDivision(num1, num2);
-    case '%':
-      return handleModulus(num1, num2);
-  }
-}
-
-function handleBinaryOperation(num1, num2, operationToPerform) {
-  num2 = Number(num2);
-  console.log(`handleOperation: ${getPreviousResult()} ${getOperator()} ${num2}`);
-  let newResult = calculateNewResult(num1, num2, operationToPerform);
-  // console.log(`handleOperation: prev result: ${getPreviousResult()} Current result: ${getCurrentResult()}`)
-  return newResult;
 }
 
 function updateCurrentScreen(task, updateValue='') {
@@ -223,7 +203,7 @@ function handleBinaryOperatorClick(operationToPerform='') {
       // first time || equal button pressed
       let operand1 = getPreviousResult();
       let operand2 = getCurrentResult();
-      let newResult = handleBinaryOperation(operand1, operand2, getOperator());
+      let newResult = performBinaryOperation(operand1, operand2, getOperator());
       setPreviousResult(newResult);
       clearOperator();
       clearCurrentResult();
@@ -247,8 +227,38 @@ function handleBinaryOperatorClick(operationToPerform='') {
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////// MATH FUNCTIONS /////////////////////////////////
+///////////////////////////////// BACKEND ////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
+
+function calculateNewResult(num1, num2, operationToPerform) {
+  switch (operationToPerform) {
+    case '+':
+      return handleAddition(num1, num2);
+    case '-':
+      return handleSubstraction(num1, num2);
+    case 'x':
+      return handleMultiplication(num1, num2);
+    case '/':
+      return handleDivision(num1, num2);
+    case '%':
+      return handleModulus(num1, num2);
+  }
+}
+
+function performUnaryOperation(operand) {
+  console.log(`handleUnaryOperation: Multiplying ${operand} by -1.`)
+  operand *= -1;
+  return operand;
+}
+
+function performBinaryOperation(num1, num2, operationToPerform) {
+  num2 = Number(num2);
+  console.log(`handleBinaryOperation: ${getPreviousResult()} ${getOperator()} ${num2}`);
+  let newResult = calculateNewResult(num1, num2, operationToPerform);
+  return newResult;
+}
+
+///////////////////////////////// MATH FUNCTIONS /////////////////////////////////
 
 function roundAnswer(numToRound) {
   console.log(`roundAnswer: Rounding ${numToRound}`);
@@ -285,15 +295,7 @@ function handleModulus(num1, num2) {
   return roundAnswer(num1 % num2);
 }
 
-function performUnaryOperation(operand) {
-  console.log(`handleUnaryOperation: Multiplying ${operand} by -1.`)
-  operand *= -1;
-  return operand;
-}
-
-//////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// ERRORS /////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
 
 function throwInvalidOperationError() {
   console.log("Invalid operation encountered.")
