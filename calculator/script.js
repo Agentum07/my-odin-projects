@@ -1,4 +1,20 @@
 //////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// ENUMS //////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+const DEFAULT_RESULT = '';
+const ERROR = 'ERROR';
+
+const DisplayTasks = {
+  APPEND: 'append',
+  BACKSPACE: 'backspace',
+  RESET: 'reset',
+  CLEAR: 'clear',
+  OVERWRITE: 'overwrite',
+  UPDATE: 'update',
+  UPDATE_OPERATOR: 'updateOperator'
+};
+
+//////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// CONTROLLERS ////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +82,15 @@ function clearOperator() {
 }
 
 function isOperatorDefined() {
-  return operator !== '';
+  return operator !== DEFAULT_RESULT;
+}
+
+function isCurrentResultDefined() {
+  return currentResult !== DEFAULT_RESULT;
+}
+
+function isPreviousResultDefined() {
+  return prevResult !== DEFAULT_RESULT;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +115,7 @@ function handleButtonClick(button) {
 function handleNumberButtonClick(number) {
   // console.log(`handleNumberButtonClick: Number pressed: ${number.textContent}`);
   let numberPressed = number.textContent;
-  updateCurrentScreen('append', numberPressed);
+  updateCurrentScreen(DisplayTasks.APPEND, numberPressed);
   updateCurrentResult();
 }
 
@@ -109,21 +133,21 @@ function handleUnaryOperatorClick() {
   operand = getCurrentResult();
   let newResult = performUnaryOperation(operand);
   setCurrentResult(newResult);
-  updateCurrentScreen('overwrite', newResult);
+  updateCurrentScreen(DisplayTasks.OVERWRITE, newResult);
 }
 
 function handleBinaryOperatorClick(operationToPerform='') {
   if (isOperatorDefined()) {
     // if an operator button is pressed twice
-    if (currentResult === '') {
-      updateHistoryScreen('updateOperator', operationToPerform);
+    if (!isCurrentResultDefined()) {
+      updateHistoryScreen(DisplayTasks.UPDATE_OPERATOR, operationToPerform);
       setOperator(operationToPerform);
     } else {
       // first time || equal button pressed
       let operand1 = getPreviousResult();
       let operand2 = getCurrentResult();
       let newResult = performBinaryOperation(operand1, operand2, getOperator());
-      if (newResult === 'ERROR') {
+      if (newResult === ERROR) {
         return;
       }
       setPreviousResult(newResult);
@@ -131,12 +155,12 @@ function handleBinaryOperatorClick(operationToPerform='') {
       clearCurrentResult();
       console.log(`After handleOperation call. current: ${getCurrentResult()} previous: ${getPreviousResult()} op: ${getOperator()}`);
 
-      if (operationToPerform === '') {
+      if (!isOperatorDefined()) {
         setCurrentResult(newResult);
       } else {
         setOperator(operationToPerform);
-        updateHistoryScreen('update', operationToPerform);
-        updateCurrentScreen('overwrite', prevResult);
+        updateHistoryScreen(DisplayTasks.UPDATE, operationToPerform);
+        updateCurrentScreen(DisplayTasks.OVERWRITE, prevResult);
       }
     }
   } else {
@@ -144,60 +168,56 @@ function handleBinaryOperatorClick(operationToPerform='') {
       setOperator(operationToPerform);
       setPreviousResult(currentResult);
       clearCurrentResult();
-      updateHistoryScreen('update', operationToPerform);
+      updateHistoryScreen(DisplayTasks.UPDATE, operationToPerform);
   }
 }
 
 function handleClearButtonClick() {
-  updateCurrentScreen('reset');
-  updateHistoryScreen('reset');
+  updateCurrentScreen(DisplayTasks.RESET);
+  updateHistoryScreen(DisplayTasks.RESET);
   clearCurrentResult();
   clearPreviousResult();
   clearOperator();
 }
 
 function handleBackspaceButtonClick() {
-  updateCurrentScreen('backspace');
+  updateCurrentScreen(DisplayTasks.BACKSPACE);
   updateCurrentResult();
 }
 
 function handleEqualButtonClick() {
   // only modify the display if there is a calculation left to conduct.
-  // TODO: Overwrite current result if a number is pressed after pressing =.
   if (isOperatorDefined()) {
     console.log(`handleEqualButtonClick. prev ${getPreviousResult()}, current ${getCurrentResult()}, op ${getOperator()}`);
     handleBinaryOperatorClick();
     if (getPreviousResult() !== '') {
-      updateHistoryScreen('update', " = ");
-      updateCurrentScreen('overwrite', prevResult);
+      updateHistoryScreen(DisplayTasks.UPDATE, " = ");
+      updateCurrentScreen(DisplayTasks.OVERWRITE, prevResult);
     }
   }
 }
 
 function updateCurrentScreen(task, updateValue='') {
-  // task => append, backspace, clear, clear, overwrite
-  // TODO: Break into smaller functions.
-  // TODO: create enum for all the strings. Align strings between current and history screens.
-  if (task === 'reset') {
+  if (task === DisplayTasks.RESET) {
     // console.log("updateCurrentScreen: Reset current screen.")
     currentScreenVal = '0';
-  } else if (task === 'clear') {
+  } else if (task === DisplayTasks.CLEAR) {
     // console.log("updateCurrentScreen: Clear current screen.")
     currentScreenVal = '';
-  } else if (task === 'overwrite') {
+  } else if (task === DisplayTasks.OVERWRITE) {
     // console.log("updateCurrentScreen: Overwrite current screen.")
     currentScreenVal = updateValue;
   } else {
     currentScreenVal = currentScreen.textContent;
-    if (task === 'backspace') {
+    if (task === DisplayTasks.BACKSPACE) {
       // console.log("updateCurrentScreen: Remove last element from current screen.")
       currentScreenVal = currentScreenVal.slice(0, -1);
       if (currentScreenVal === '') {
         currentScreenVal = '0';
       }
-    } else if (task === 'append') {
+    } else if (task === DisplayTasks.APPEND) {
       // console.log(`updateCurrentScreen: Append ${updateValue} to current screen.`)
-        if (currentScreenVal === '0' || currentResult === '') {
+        if (currentScreenVal === '0' || !isCurrentResultDefined()) {
           currentScreenVal = '';
         }
         currentScreenVal += updateValue;
@@ -207,24 +227,21 @@ function updateCurrentScreen(task, updateValue='') {
 }
 
 function updateHistoryScreen(task, updateValue) {
-  // reset, update, overwrite, updateOperator
-  // TODO: Break into smaller functions.
-  // TODO: create enum for all the strings. Align strings between current and history screens.
-  if (task === 'reset') {
+  if (task === DisplayTasks.RESET) {
     // console.log("updateHistoryScreen: Reset history screen.")
     historyScreenVal = '';
-  } else if (task === 'update') {
+  } else if (task === DisplayTasks.UPDATE) {
     // console.log("updateHistoryScreen: Updated history screen.")
-    if (prevResult === '') {
+    if (!isPreviousResultDefined()) {
       historyScreenVal = updateValue;
     } else {
       historyScreenVal = historyScreen.textContent + ' ' + currentScreen.textContent + ' ' + updateValue;
     }
-    updateCurrentScreen('clear');
-  } else if (task === 'overwrite') {
+    updateCurrentScreen(DisplayTasks.CLEAR);
+  } else if (task === DisplayTasks.OVERWRITE) {
     // console.log("updateHistoryScreen: Overwrite history screen.")
     historyScreenVal = updateValue;
-  } else if (task === 'updateOperator') {
+  } else if (task === DisplayTasks.UPDATE_OPERATOR) {
     historyScreenVal = historyScreen.textContent.slice(0, -1) + updateValue;
     // console.log(`Update history screen. ${historyScreenVal}`);
   }
@@ -291,7 +308,7 @@ function handleMultiplication(num1, num2) {
 function handleDivision(num1, num2) {
   if (num2 === 0) {
     throwInvalidOperationError();
-    return 'ERROR';
+    return ERROR;
   }
   return roundAnswer(num1 / num2);
 }
@@ -304,9 +321,9 @@ function handleModulus(num1, num2) {
 
 function throwInvalidOperationError() {
   console.log("Invalid operation encountered.")
-  updateHistoryScreen('reset');
-  updateCurrentScreen('reset');
-  updateCurrentScreen('overwrite', "Invalid Operation");
+  updateHistoryScreen(DisplayTasks.RESET);
+  updateCurrentScreen(DisplayTasks.RESET);
+  updateCurrentScreen(DisplayTasks.OVERWRITE, "Invalid Operation");
   clearCurrentResult();
   clearPreviousResult();
 }
