@@ -108,7 +108,9 @@ function handleButtonClick(button) {
   if (button.classList.contains('number')) {
     handleNumberButtonClick(button);
   } else if (button.classList.contains('operator')) {
-    handleOperatorButtonClick(button);
+    if (isPreviousResultDefined() || isCurrentResultDefined()) {
+      handleOperatorButtonClick(button);
+    }
   }
 }
 
