@@ -23,6 +23,26 @@ function handleClearButtonClick() {
   clearOperator();
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// GETTER FUNCTIONS /////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+function getPreviousResult() {
+  return prevResult;
+}
+
+function getCurrentResult() {
+  return currentResult;
+}
+
+function getOperator() {
+  return operator;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// SETTER FUNCTIONS /////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
 function setPreviousResult(newResult) {
   prevResult = newResult;
 }
@@ -35,6 +55,13 @@ function updateCurrentResult() {
   currentResult = Number(currentScreen.textContent);
 }
 
+function setOperator(newOperator) {
+  operator = newOperator;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// RESET FUNCTIONS //////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 function clearPreviousResult() {
   prevResult = '';
 }
@@ -47,6 +74,10 @@ function clearOperator() {
   operator = '';
 }
 
+function isOperatorDefined() {
+  return operator !== '';
+}
+
 function handleBackspaceButtonClick() {
   updateCurrentScreen('backspace');
   updateCurrentResult();
@@ -54,9 +85,9 @@ function handleBackspaceButtonClick() {
 
 function handleEqualButtonClick() {
   // only modify the display if there is a calculation left to conduct.
-  if (operator !== '') {
-    console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
-    // updateHistoryScreen('update', '');
+  // TODO: Overwrite current result if a number is pressed after pressing =.
+  if (isOperatorDefined()) {
+    console.log(`handleEqualButtonClick. prev ${getPreviousResult()}, current ${getCurrentResult()}, op ${getOperator()}`);
     handleBinaryOperatorClick();
     updateHistoryScreen('update', " = ");
     updateCurrentScreen('overwrite', prevResult);
@@ -102,9 +133,9 @@ function calculateNewResult(num1, num2, operationToPerform) {
 
 function handleBinaryOperation(num1, num2, operationToPerform) {
   num2 = Number(num2);
-  console.log(`handleOperation: ${prevResult} ${operator} ${num2}`);
+  console.log(`handleOperation: ${getPreviousResult()} ${getOperator()} ${num2}`);
   let newResult = calculateNewResult(num1, num2, operationToPerform);
-  // console.log(`handleOperation: prev result: ${prevResult} Current result: ${currentResult}`)
+  // console.log(`handleOperation: prev result: ${getPreviousResult()} Current result: ${getCurrentResult()}`)
   return newResult;
 }
 
@@ -165,70 +196,54 @@ function updateHistoryScreen(task, updateValue) {
   historyScreen.textContent = historyScreenVal;
 }
 
-function handleBinaryOperatorClick(operationToPerform='') {
-/*
-if operator has been defined before:
-  if current click is an operator:
-    update screen
-  else:
-  shares with equal button click.
-    perform binary operation(prevResult, currentResult, operator);
-    update operator to operationToPerform;
-else:
-  define operator.
-  prevResult = currResult
-  reset current result.
-  update history screen.
-*/
+function handleOperatorButtonClick(operationToPerform) {
+  // divide into unary and binary operator.
+  console.log(`handleOperatorButtonClick: current result: ${getCurrentResult()}, prevResult: ${getPreviousResult()}, op: ${operationToPerform.textContent}`);
+  if (operationToPerform.classList.contains('unary')) {
+    handleUnaryOperatorClick();
+  } else {
+    handleBinaryOperatorClick(operationToPerform.textContent);
+  }
+}
 
-  console.log(`handleBinaryOperation: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
-  if (operator !== '') {
+function handleUnaryOperatorClick() {
+  operand = getCurrentResult();
+  let newResult = performUnaryOperation(operand);
+  setCurrentResult(newResult);
+  updateCurrentScreen('overwrite', newResult);
+}
+
+function handleBinaryOperatorClick(operationToPerform='') {
+  if (isOperatorDefined()) {
     // if an operator button is pressed twice
     if (currentResult === '') {
       updateHistoryScreen('updateOperator', operationToPerform);
-      operator = operationToPerform;
+      setOperator(operationToPerform);
     } else {
-      // first time || or equal button pressed
-      let newResult = handleBinaryOperation(prevResult, currentResult, operator);
+      // first time || equal button pressed
+      let operand1 = getPreviousResult();
+      let operand2 = getCurrentResult();
+      let newResult = handleBinaryOperation(operand1, operand2, getOperator());
       setPreviousResult(newResult);
       clearOperator();
       clearCurrentResult();
-      console.log(`After handleOperation call. current: ${currentResult} previous: ${prevResult} op: ${operator}`);
+      console.log(`After handleOperation call. current: ${getCurrentResult()} previous: ${getPreviousResult()} op: ${getOperator()}`);
 
       if (operationToPerform === '') {
         setCurrentResult(newResult);
       } else {
-        operator = operationToPerform;
+        setOperator(operationToPerform);
         updateHistoryScreen('update', operationToPerform);
         updateCurrentScreen('overwrite', prevResult);
       }
     }
   } else {
       console.log(`Operator is not defined.`)
-      operator = operationToPerform;
+      setOperator(operationToPerform);
       setPreviousResult(currentResult);
       clearCurrentResult();
       updateHistoryScreen('update', operationToPerform);
   }
-}
-
-function handleOperatorButtonClick(operationToPerform) {
-  // divide into unary and binary operator.
-  console.log(`handleOperatorButtonClick: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
-  if (operationToPerform.classList.contains('unary')) {
-    handleUnaryOperatorClick();
-  } else {
-    handleBinaryOperatorClick(operationToPerform.textContent);
-    // update screen.
-  }
-}
-
-function handleUnaryOperatorClick() {
-  // TODO: Create getter for currentResult.
-  operand = currentResult;
-  let newResult = performUnaryOperation(operand);
-  setCurrentResult(newResult);
-  updateCurrentScreen('overwrite', newResult);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
