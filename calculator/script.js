@@ -14,6 +14,15 @@ const DisplayTasks = {
   UPDATE_OPERATOR: 'updateOperator'
 };
 
+const Operations = {
+  ADD: '+',
+  SUBSTRACT: '-',
+  MULTIPLY: 'x',
+  DIVIDE: '/',
+  PERCENTAGE: '%',
+  SIGN_CHANGE: '+/-' 
+};
+
 //////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// CONTROLLERS ////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
@@ -127,15 +136,15 @@ function handleOperatorButtonClick(operationToPerform) {
   // divide into unary and binary operator.
   console.log(`handleOperatorButtonClick: current result: ${getCurrentResult()}, prevResult: ${getPreviousResult()}, currentOp: ${operationToPerform.textContent}, previousOp: ${operator}`);
   if (operationToPerform.classList.contains('unary')) {
-    handleUnaryOperatorClick();
+    handleUnaryOperatorClick(operationToPerform.textContent);
   } else {
     handleBinaryOperatorClick(operationToPerform.textContent);
   }
 }
 
-function handleUnaryOperatorClick() {
+function handleUnaryOperatorClick(operation) {
   operand = getCurrentResult();
-  let newResult = performUnaryOperation(operand);
+  let newResult = performUnaryOperation(operand, operation);
   setCurrentResult(newResult);
   updateCurrentScreen(DisplayTasks.OVERWRITE, newResult);
 }
@@ -264,23 +273,24 @@ function updateHistoryScreen(task, updateValue) {
 
 function calculateNewResult(num1, num2, operationToPerform) {
   switch (operationToPerform) {
-    case '+':
+    case Operations.ADD:
       return handleAddition(num1, num2);
-    case '-':
+    case Operations.SUBSTRACT:
       return handleSubstraction(num1, num2);
-    case 'x':
+    case Operations.MULTIPLY:
       return handleMultiplication(num1, num2);
-    case '/':
+    case Operations.DIVIDE:
       return handleDivision(num1, num2);
-    case '%':
-      return handleModulus(num1, num2);
   }
 }
 
-function performUnaryOperation(operand) {
-  console.log(`handleUnaryOperation: Multiplying ${operand} by -1.`)
-  operand *= -1;
-  return operand;
+function performUnaryOperation(operand, operation) {
+  switch (operation) {
+    case Operations.SIGN_CHANGE:
+      return toggleSign(operand);
+    case Operations.PERCENTAGE:
+      return handlePercentage(operand);
+  }
 }
 
 function performBinaryOperation(num1, num2, operationToPerform) {
@@ -323,8 +333,12 @@ function handleDivision(num1, num2) {
   return roundAnswer(num1 / num2);
 }
 
-function handleModulus(num1, num2) {
-  return roundAnswer(num1 % num2);
+function toggleSign(operand) {
+  return operand * -1;
+}
+
+function handlePercentage(operand) {
+  return roundAnswer(operand / 100);
 }
 
 ///////////////////////////////////// ERRORS /////////////////////////////////////
