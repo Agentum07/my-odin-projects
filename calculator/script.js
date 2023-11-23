@@ -167,8 +167,10 @@ function handleEqualButtonClick() {
   if (isOperatorDefined()) {
     console.log(`handleEqualButtonClick. prev ${getPreviousResult()}, current ${getCurrentResult()}, op ${getOperator()}`);
     handleBinaryOperatorClick();
-    updateHistoryScreen('update', " = ");
-    updateCurrentScreen('overwrite', prevResult);
+    if (getPreviousResult() !== '') {
+      updateHistoryScreen('update', " = ");
+      updateCurrentScreen('overwrite', prevResult);
+    }
   }
 }
 
