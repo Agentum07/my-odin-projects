@@ -112,7 +112,34 @@ document.addEventListener("DOMContentLoaded", function() {
   console.log("Content loaded.");
   
   let buttons = document.querySelectorAll(".button");
+  const operators = {
+    '+': 'plus',
+    '-': 'minus',
+    '*': 'multiply',
+    '/': 'divide',
+    '%': 'percentage',
+  };
   buttons.forEach((button) => button.addEventListener("click", () => handleButtonClick(button)));
+
+  // Keyboard support
+  document.addEventListener('keyup', (event) => {
+    console.log(`${event.key}`);
+    if (!Number.isNaN(+event.key) && event.key !== ' ') {
+      document.getElementById(`number-${event.key}`).click();
+    } else if (event.key === 'Backspace') {
+      document.getElementById('backspace-btn').click();
+    } else if (event.key === 'Delete' || event.key === 'c' || event.key === 'C') {
+      document.getElementById('clear-btn').click();
+    } else if (event.key === '.') {
+      document.getElementById('decimal').click();
+    } else if (event.key === '=' || event.key === 'Enter') {
+      document.getElementById('equal-btn').click();
+    } else if (['+', '-', '*', '/', '%'].includes(event.key)) {
+      document.getElementById(operators[event.key]).click();
+    } else {
+      console.log('Wrong key:', event.key);
+    }
+  });
 })
 
 function handleButtonClick(button) {
