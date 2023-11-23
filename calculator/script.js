@@ -26,14 +26,14 @@ function handleBackspaceButtonClick() {
 
 function handleEqualButtonClick() {
   // figure out how to make history screen and current screen have the current result value.
-  console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
   if (operator !== '') {
+    console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
+    updateHistoryScreen('update', '');
     handleOperation(currentResult);
-    operator = '';
   }
   console.log(`handleEqualButtonClick: Final answer: ${prevResult}`);
+  updateHistoryScreen('update', " = ");
   updateCurrentScreen('overwrite', prevResult);
-  updateHistoryScreen('update', " = " + prevResult);
   currentResult = prevResult;
   prevResult = '';
 }
@@ -86,6 +86,7 @@ function handleOperation(num2) {
       currentResult = handleModulus(prevResult, num2);
       break;
   }
+  operator = '';
   prevResult = currentResult;
   currentResult = '';
   console.log(`handleOperation: prev result: ${prevResult} Current result: ${currentResult}`)
