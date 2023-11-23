@@ -18,20 +18,33 @@ equal_btn.addEventListener("click", () => handleEqualButtonClick());
 function handleClearButtonClick() {
   updateCurrentScreen('reset');
   updateHistoryScreen('reset');
-  resetCurrentResult();
-  prevResult = '';
+  clearCurrentResult();
+  clearPreviousResult();
+  clearOperator();
 }
 
 function setPreviousResult(newResult) {
   prevResult = newResult;
 }
 
+function setCurrentResult(newResult) {
+  currentResult = newResult;
+}
+
 function updateCurrentResult() {
   currentResult = Number(currentScreen.textContent);
 }
 
-function resetCurrentResult() {
+function clearPreviousResult() {
+  prevResult = '';
+}
+
+function clearCurrentResult() {
   currentResult = '';
+}
+
+function clearOperator() {
+  operator = '';
 }
 
 function handleBackspaceButtonClick() {
@@ -43,8 +56,8 @@ function handleEqualButtonClick() {
   // only modify the display if there is a calculation left to conduct.
   if (operator !== '') {
     console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
-    updateHistoryScreen('update', '');
-    handleOperation(currentResult);
+    // updateHistoryScreen('update', '');
+    handleBinaryOperation(operator);
     updateHistoryScreen('update', " = ");
     updateCurrentScreen('overwrite', prevResult);
   }
@@ -61,10 +74,6 @@ function handleButtonClick(button) {
   if (button.classList.contains('number')) {
     handleNumberButtonClick(button);
   } else if (button.classList.contains('operator')) {
-    if (prevResult === '') {
-      setPreviousResult(currentResult);
-      resetCurrentResult();
-    }
     handleOperatorButtonClick(button);
   }
 }
@@ -76,30 +85,28 @@ function handleNumberButtonClick(number) {
   updateCurrentResult();
 }
 
-// handle binary operation
+function calculateNewResult(num1, num2, operationToPerform) {
+  switch (operationToPerform) {
+    case '+':
+      return handleAddition(num1, num2);
+    case '-':
+      return handleSubstraction(num1, num2);
+    case 'x':
+      return handleMultiplication(num1, num2);
+    case '/':
+      return handleDivision(num1, num2);
+    case '%':
+      return handleModulus(num1, num2);
+  }
+}
+
 function handleOperation(num2) {
   num2 = Number(num2);
   console.log(`handleOperation: ${prevResult} ${operator} ${num2}`);
-  switch (operator) {
-    case '+':
-      currentResult = handleAddition(prevResult, num2);
-      break;
-    case '-':
-      currentResult = handleSubstraction(prevResult, num2);
-      break;
-    case 'x':
-      currentResult = handleMultiplication(prevResult, num2);
-      break;
-    case '/':
-      currentResult = handleDivision(prevResult, num2);
-      break;
-    case '%':
-      currentResult = handleModulus(prevResult, num2);
-      break;
-  }
-  operator = '';
-  setPreviousResult(currentResult);
-  resetCurrentResult();
+  let newResult = calculateNewResult(prevResult, num2, operator);
+  setPreviousResult(newResult);
+  clearCurrentResult();
+  clearOperator();
   console.log(`handleOperation: prev result: ${prevResult} Current result: ${currentResult}`)
 }
 
@@ -136,7 +143,7 @@ function updateCurrentScreen(task, updateValue='') {
 }
 
 function updateHistoryScreen(task, updateValue) {
-  // reset, update, overwrite
+  // reset, update, overwrite, updateOperator
   // TODO: Break into smaller functions.
   // TODO: create enum for all the strings. Align strings between current and history screens.
   if (task === 'reset') {
@@ -160,37 +167,52 @@ function updateHistoryScreen(task, updateValue) {
   historyScreen.textContent = historyScreenVal;
 }
 
-function handleOperatorButtonClick(operationToPerform) {
-  console.log(`handleOperatorButtonClick: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operator}`);
-
+function handleBinaryOperation(operationToPerform) {
   // if operator has been defined before
+
+/*
+if last click was a number, update operator
+*/
+
+  console.log(`handleBinaryOperation: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
   if (operator !== '') {
-    console.log(`Operator is defined.`)
-    if (operationToPerform.classList.contains('unary')) {
-      handleUnaryOperation();
-      return;
-    }
     // if an operator button is pressed twice
     if (currentResult === '') {
-      updateHistoryScreen('updateOperator', operationToPerform.textContent);
+      updateHistoryScreen('updateOperator', operationToPerform);
     } else {
       // first time 
       handleOperation(currentResult);
-      operator = '';
-      updateHistoryScreen('update', operationToPerform.textContent);
+      console.log(`After handleOperation call. current: ${currentResult} previous: ${prevResult} op: ${operator}`);
+      updateHistoryScreen('update', operationToPerform);
       updateCurrentScreen('overwrite', prevResult);
     }
-    operator = operationToPerform.textContent;
+    operator = operationToPerform;
   } else {
-    console.log(`Operator is not defined.`)
-    // handle unary operator
-    if (operationToPerform.classList.contains('unary')) {
-      handleUnaryOperation();
-    } else {
-      operator = operationToPerform.textContent;
-      updateHistoryScreen('update', operationToPerform.textContent);
-    }
+      console.log(`Operator is not defined.`)
+      operator = operationToPerform;
+      setPreviousResult(currentResult);
+      clearCurrentResult();
+      // updateHistoryScreen('update', prevResult);
+      updateHistoryScreen('update', operationToPerform);
   }
+}
+
+function handleOperatorButtonClick(operationToPerform) {
+  // divide into unary and binary operator.
+  console.log(`handleOperatorButtonClick: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
+  if (operationToPerform.classList.contains('unary')) {
+    handleUnaryOperation();
+  } else {
+    handleBinaryOperation(operationToPerform.textContent);
+    // update screen.
+  }
+}
+
+function handleUnaryOperation() {
+  operand = currentResult;
+  let newResult = performUnaryOperation(operand);
+  setCurrentResult(newResult);
+  updateCurrentScreen('overwrite', newResult);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -232,11 +254,10 @@ function handleModulus(num1, num2) {
   return roundAnswer(num1 % num2);
 }
 
-function handleUnaryOperation() {
-  console.log(`handleUnaryOperation: Multiplying ${prevResult} by -1.`)
-  // prevResult = prevResult * -1;
-  currentResult *= -1;
-  updateCurrentScreen('overwrite', currentResult);
+function performUnaryOperation(operand) {
+  console.log(`handleUnaryOperation: Multiplying ${operand} by -1.`)
+  operand *= -1;
+  return operand;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -248,5 +269,5 @@ function throwInvalidOperationError() {
   updateHistoryScreen('reset');
   updateCurrentScreen('reset');
   updateCurrentScreen('overwrite', "Invalid Operation");
-  resetCurrentResult();
+  clearCurrentResult();
 }
