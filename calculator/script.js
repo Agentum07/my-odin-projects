@@ -57,7 +57,7 @@ function handleEqualButtonClick() {
   if (operator !== '') {
     console.log(`handleEqualButtonClick. prev ${prevResult}, current ${currentResult}, op ${operator}`);
     // updateHistoryScreen('update', '');
-    handleBinaryOperation(operator);
+    handleBinaryOperatorClick();
     updateHistoryScreen('update', " = ");
     updateCurrentScreen('overwrite', prevResult);
   }
@@ -100,14 +100,12 @@ function calculateNewResult(num1, num2, operationToPerform) {
   }
 }
 
-function handleOperation(num2) {
+function handleBinaryOperation(num1, num2, operationToPerform) {
   num2 = Number(num2);
   console.log(`handleOperation: ${prevResult} ${operator} ${num2}`);
-  let newResult = calculateNewResult(prevResult, num2, operator);
-  setPreviousResult(newResult);
-  clearCurrentResult();
-  clearOperator();
-  console.log(`handleOperation: prev result: ${prevResult} Current result: ${currentResult}`)
+  let newResult = calculateNewResult(num1, num2, operationToPerform);
+  // console.log(`handleOperation: prev result: ${prevResult} Current result: ${currentResult}`)
+  return newResult;
 }
 
 function updateCurrentScreen(task, updateValue='') {
@@ -167,11 +165,20 @@ function updateHistoryScreen(task, updateValue) {
   historyScreen.textContent = historyScreenVal;
 }
 
-function handleBinaryOperation(operationToPerform) {
-  // if operator has been defined before
-
+function handleBinaryOperatorClick(operationToPerform='') {
 /*
-if last click was a number, update operator
+if operator has been defined before:
+  if current click is an operator:
+    update screen
+  else:
+  shares with equal button click.
+    perform binary operation(prevResult, currentResult, operator);
+    update operator to operationToPerform;
+else:
+  define operator.
+  prevResult = currResult
+  reset current result.
+  update history screen.
 */
 
   console.log(`handleBinaryOperation: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
@@ -179,20 +186,28 @@ if last click was a number, update operator
     // if an operator button is pressed twice
     if (currentResult === '') {
       updateHistoryScreen('updateOperator', operationToPerform);
+      operator = operationToPerform;
     } else {
-      // first time 
-      handleOperation(currentResult);
+      // first time || or equal button pressed
+      let newResult = handleBinaryOperation(prevResult, currentResult, operator);
+      setPreviousResult(newResult);
+      clearOperator();
+      clearCurrentResult();
       console.log(`After handleOperation call. current: ${currentResult} previous: ${prevResult} op: ${operator}`);
-      updateHistoryScreen('update', operationToPerform);
-      updateCurrentScreen('overwrite', prevResult);
+
+      if (operationToPerform === '') {
+        setCurrentResult(newResult);
+      } else {
+        operator = operationToPerform;
+        updateHistoryScreen('update', operationToPerform);
+        updateCurrentScreen('overwrite', prevResult);
+      }
     }
-    operator = operationToPerform;
   } else {
       console.log(`Operator is not defined.`)
       operator = operationToPerform;
       setPreviousResult(currentResult);
       clearCurrentResult();
-      // updateHistoryScreen('update', prevResult);
       updateHistoryScreen('update', operationToPerform);
   }
 }
@@ -201,14 +216,15 @@ function handleOperatorButtonClick(operationToPerform) {
   // divide into unary and binary operator.
   console.log(`handleOperatorButtonClick: current result: ${currentResult}, prevResult: ${prevResult}, op: ${operationToPerform.textContent}`);
   if (operationToPerform.classList.contains('unary')) {
-    handleUnaryOperation();
+    handleUnaryOperatorClick();
   } else {
-    handleBinaryOperation(operationToPerform.textContent);
+    handleBinaryOperatorClick(operationToPerform.textContent);
     // update screen.
   }
 }
 
-function handleUnaryOperation() {
+function handleUnaryOperatorClick() {
+  // TODO: Create getter for currentResult.
   operand = currentResult;
   let newResult = performUnaryOperation(operand);
   setCurrentResult(newResult);
