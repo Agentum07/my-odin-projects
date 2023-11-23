@@ -239,8 +239,14 @@ function handleEqualButtonClick() {
 }
 
 function handleDecimalButtonClick() {
-  updateCurrentScreen(DisplayTasks.APPEND, '.');
-  updateCurrentResult();
+  console.log(`current result: ${getCurrentResult()}`);
+  if (!isCurrentResultDefined()) {
+    setCurrentResult(0);
+  }
+  if (getCurrentResult() % 1 === 0) {
+    updateCurrentScreen(DisplayTasks.APPEND, '.');
+    updateCurrentResult();
+  }
 }
 
 function updateCurrentScreen(task, updateValue='') {
@@ -265,6 +271,9 @@ function updateCurrentScreen(task, updateValue='') {
       // console.log(`updateCurrentScreen: Append ${updateValue} to current screen.`)
         if (currentScreenVal === '0' || !isCurrentResultDefined()) {
           currentScreenVal = '';
+        }
+        if (updateValue === '.' && currentScreenVal.includes('.')) {
+          return;
         }
         currentScreenVal += updateValue;
     }
