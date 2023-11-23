@@ -121,7 +121,7 @@ function handleNumberButtonClick(number) {
 
 function handleOperatorButtonClick(operationToPerform) {
   // divide into unary and binary operator.
-  console.log(`handleOperatorButtonClick: current result: ${getCurrentResult()}, prevResult: ${getPreviousResult()}, op: ${operationToPerform.textContent}`);
+  console.log(`handleOperatorButtonClick: current result: ${getCurrentResult()}, prevResult: ${getPreviousResult()}, currentOp: ${operationToPerform.textContent}, previousOp: ${operator}`);
   if (operationToPerform.classList.contains('unary')) {
     handleUnaryOperatorClick();
   } else {
@@ -138,6 +138,7 @@ function handleUnaryOperatorClick() {
 
 function handleBinaryOperatorClick(operationToPerform='') {
   if (isOperatorDefined()) {
+    console.log(`Operator is defined.`)
     // if an operator button is pressed twice
     if (!isCurrentResultDefined()) {
       updateHistoryScreen(DisplayTasks.UPDATE_OPERATOR, operationToPerform);
@@ -155,7 +156,7 @@ function handleBinaryOperatorClick(operationToPerform='') {
       clearCurrentResult();
       console.log(`After handleOperation call. current: ${getCurrentResult()} previous: ${getPreviousResult()} op: ${getOperator()}`);
 
-      if (!isOperatorDefined()) {
+      if (operationToPerform === DEFAULT_RESULT) {
         setCurrentResult(newResult);
       } else {
         setOperator(operationToPerform);
