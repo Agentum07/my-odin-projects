@@ -30,10 +30,12 @@ const currentScreen = document.querySelector("#input");
 const clear_btn = document.getElementById('clear-btn');
 const backspace_btn = document.getElementById('backspace-btn');
 const equal_btn = document.getElementById('equal-btn');
+const decimal_btn = document.getElementById('decimal');
 
 clear_btn.addEventListener("click", () => handleClearButtonClick());
 backspace_btn.addEventListener("click", () => handleBackspaceButtonClick());
 equal_btn.addEventListener("click", () => handleEqualButtonClick());
+decimal_btn.addEventListener("click", () => handleDecimalButtonClick());
 
 /////////////////////////////// GETTER FUNCTIONS /////////////////////////////////
 
@@ -198,6 +200,11 @@ function handleEqualButtonClick() {
       updateCurrentScreen(DisplayTasks.OVERWRITE, prevResult);
     }
   }
+}
+
+function handleDecimalButtonClick() {
+  updateCurrentScreen(DisplayTasks.APPEND, '.');
+  updateCurrentResult();
 }
 
 function updateCurrentScreen(task, updateValue='') {
