@@ -1,0 +1,161 @@
+:root {
+  --left-space: 48px;
+}
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Norse Bold";
+  src: url("./fonts/Norse-Bold.otf");
+}
+
+body {
+  display: flex;
+}
+.image-section {
+  display: flex;
+  min-height: 100vh;
+  width: 50%;
+  background-image: url(./images/background.jpg);
+  background-position: center;
+  background-size: cover;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  text-align: center;
+}
+
+.image-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Norse Bold";
+  font-size: 5rem;
+  margin-top: 20vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image-banner img {
+  height: 125px;
+}
+
+.image-footer {
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5%;
+}
+
+.image-footer a {
+  color: white;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f9fafb;
+}
+
+.disclaimer-subsection {
+  font-size: 1.4rem;
+  margin-left: var(--left-space);
+  font-weight: bold;
+  max-width: 80%;
+  margin-bottom: 8px;
+}
+
+form {
+  color: black;
+  background-color: white;
+  margin-top: 32px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: var(--left-space);
+  box-shadow: 0 5px 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1px;
+}
+
+form input {
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 4px 8px;
+  width: 100%;
+  font-size: 1rem;
+  margin-right: 32px;
+}
+
+input.focus {
+  border: 1px solid blue;
+  box-shadow: 2px 1px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+form fieldset {
+  display: flex;
+  text-transform: uppercase;
+  border: none;
+  flex-wrap: wrap;
+  column-gap: 84px;
+  row-gap: 18px;
+  margin-bottom: 18px;
+}
+
+form > fieldset > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-subsection {
+  margin-left: var(--left-space);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+.button-subsection p {
+  font-weight: 400;
+  font-size: 1rem;
+  margin-top: 32px;
+}
+
+.button-subsection a {
+  color: #596D48;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+button {
+  margin-top: 20px;
+  border: none;
+  background-color: #596D48;
+  padding: 12px 48px;
+  border-radius: 8px;
+  box-shadow: 2px 5px 5px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+footer {
+  border: 1px solid black;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8%;
+}

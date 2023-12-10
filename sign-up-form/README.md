@@ -1,0 +1,1 @@
+Front-end for a sign-up form created using HTML, CSS and JS.
