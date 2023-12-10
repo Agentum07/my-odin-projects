@@ -149,7 +149,6 @@ button {
 }
 
 footer {
-  border: 1px solid black;
   position: fixed;
   display: flex;
   align-items: center;
