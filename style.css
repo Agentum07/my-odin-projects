@@ -6,6 +6,9 @@ body {
   line-height: 1.5;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .header {
@@ -92,7 +95,7 @@ a:hover, a:focus {
 }
 
 .footer {
-  position: fixed;
+  /* position: fixed; */
   background: linear-gradient(#0096c7, #0077b6);
   width: 100%;
   color: white;
